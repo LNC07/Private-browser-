@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Private Search Engine</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #f4f4f4;
+            flex-direction: column;
+        }
+        h1 { color: #333; }
+        input {
+            width: 300px;
+            padding: 10px;
+            font-size: 16px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+        button {
+            padding: 10px 15px;
+            font-size: 16px;
+            margin-top: 10px;
+            border: none;
+            background: #007bff;
+            color: white;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        button:hover { background: #0056b3; }
+    </style>
+</head>
+<body>
+    <h1>Anonymous Search</h1>
+    <input type="text" id="searchQuery" placeholder="Enter your search...">
+    <button onclick="search()">Search</button>
+
+    <script>
+        function getRandomUserAgent() {
+            const userAgents = [
+                "Mozilla/5.0 (Windows NT 10.0; Win64; x64)",
+                "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7)",
+                "Mozilla/5.0 (Linux; Android 11; SM-G998B)",
+                "Mozilla/5.0 (iPhone; CPU iPhone OS 15_0 like Mac OS X)"
+            ];
+            return userAgents[Math.floor(Math.random() * userAgents.length)];
+        }
+
+        function search() {
+            let query = document.getElementById("searchQuery").value;
+            if (!query) return alert("Please enter a search term.");
+            
+            let userAgent = getRandomUserAgent();
+            let searchUrl = `https://www.google.com/search?q=${encodeURIComponent(query)}`;
+
+            let newWindow = window.open(searchUrl, "_blank");
+            if (newWindow) {
+                newWindow.navigator.__defineGetter__("userAgent", function () {
+                    return userAgent;
+                });
+            }
+        }
+    </script>
+</body>
+</html>
